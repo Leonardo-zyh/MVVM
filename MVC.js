@@ -4,7 +4,7 @@ function Model(options){
   this.data = options.dat/a
   this.resource = options.resource
 }
-Model.prototype.fetch = function(id){
+Model.prototype.fetch = function(id){   //ajax
   return axios.get(`/${this.resource}s/${id}`).then((response) => {
       this.data = response.data
       console.log(this.data)
@@ -12,12 +12,10 @@ Model.prototype.fetch = function(id){
     })
 }
 Model.prototype.update = function(data){
-  let id = this.data.id
-    
+  let id = this.data.id    
     return axios.put(`/${this.resource}s/${id}`, data).then((response) => {
       this.data = response.data 
-      console.log('response')
-      console.log(response)
+      //console.log(response)
       return response
     })
 }
@@ -26,7 +24,8 @@ function View({el, template}){
   this.el = el
   this.template = template
 }
-View.prototype.render = function(data){
+
+View.prototype.render = function(data){ //渲染
   let html = this.template
   for(let key in data){
     html = html.replace(`__${key}__`, data[key])
@@ -38,7 +37,7 @@ View.prototype.render = function(data){
 // ----------  上面是 MVC 类，下面是对象
 
 
-let model = new Model({
+let model = new Model({ //数据
   data: {
     name: '',
     number: 0,
@@ -47,7 +46,7 @@ let model = new Model({
   resource: 'book'
 })
 
-let view = new View({
+let view = new View({  //Dom树
   el: '#app',
   template: `
     <div>
@@ -62,7 +61,7 @@ let view = new View({
   `
 })
 
-var controller = {
+var controller = {    //控制流程
   init(options) {
     
     let view = options.view
@@ -74,8 +73,7 @@ var controller = {
     
     this.bindEvents()
     this.model.fetch(1).then(() => {
-      console.log('this.model.data')
-            console.log(this.model.data)
+        //console.log(this.model.data)
       this.view.render(this.model.data)
     })
     
@@ -120,7 +118,7 @@ controller.init({view:view, model: model})
 
 
 
-// 不要看
+// 拦截请求和响应，不要看
 function fakeData() {
   let book = {
     name: 'JavaScript 高级程序设计',
