@@ -36,7 +36,7 @@ let model = new Model({
 let view = new Vue({
   el: '#app',
   data: {
-    book:{
+    book:{    //数据改到book中Vue自己renter
       name: '未命名',
       number: 0,
       id: ''
